@@ -14,7 +14,7 @@
     "studio": "prisma studio",
     "start:migrate:prod": "npx prisma migrate deploy && npm run start:prod",
     "start:prod": "node dist/app.js",
-    "start:dev": "nodemon -L -e ts --exec 'ts-node' src/app.ts",
+    "start:dev": "nodemon -L -e ts --exec 'ts-node' src/app.ts"
   },
   "keywords": [],
   "author": "",
