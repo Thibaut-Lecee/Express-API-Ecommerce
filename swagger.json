@@ -1,0 +1,39 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Exemple d'API",
+    "version": "1.0.0",
+    "description": "API pour mon application Node.js avec TypeScript"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Serveur de développement local"
+    }
+  ],
+  "paths": {
+    "/api/users/Get/allUsers": {
+      "get": {
+        "summary": "Obtenir des données",
+        "description": "Description de l'endpoint",
+        "responses": {
+          "200": {
+            "description": "Réponse réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
