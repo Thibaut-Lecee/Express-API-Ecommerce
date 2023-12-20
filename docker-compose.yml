@@ -1,0 +1,13 @@
+services:
+  api:
+    container_name: api-ecommerce
+    ports:
+      - "3000:3000"
+    build:
+        context: ./
+        dockerfile: Dockerfile
+    env_file:
+      - .env
+      - .env.dev
+    extra_hosts:
+        - "host.docker.internal:host-gateway"

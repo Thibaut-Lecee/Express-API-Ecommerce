@@ -1,23 +1,15 @@
 import {PrismaClient} from "@prisma/client";
 import express from "express";
-import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
 interface userDto {
     name: string;
     email: string;
-    surname: string;
+
 }
 
-const getTokenFromHeaders = (req: express.Request) => {
-    const {headers: {authorization}} = req;
-    if (authorization && authorization.split(" ")[0] === "Bearer") {
-        const token = authorization.split(" ")[1];
-        return jwt.verify(token, process.env.JWT_SECRET as string);
-    }
-    return null;
-}
+
 export const getAllUsers = async (res: express.Response) => {
     try {
 
@@ -25,9 +17,8 @@ export const getAllUsers = async (res: express.Response) => {
         const users: userDto[] = [];
         for (const user of allUsers) {
             const userDto: userDto = {
-                name: user.name,
                 email: user.email,
-                surname: user.surname,
+                name: user.firstname + " " + user.lastname,
             }
             users.push(userDto);
         }
@@ -36,3 +27,52 @@ export const getAllUsers = async (res: express.Response) => {
         res.status(500).send({message: error.message});
     }
 };
+
+export const getUserById = async (req: express.Request, res: express.Response) => {
+    try {
+        const id = req.body.id;
+        if (!id) {
+            return res.status(400).send({message: "Missing user ID"});
+        }
+        const user = await prisma.user.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        if (!user) {
+            return res.status(404).send({message: "User not found"});
+        }
+        const userDto: userDto = {
+            name: user.firstname + " " + user.lastname,
+            email: user.email,
+
+        }
+        return res.status(200).send(userDto);
+    } catch (error) {
+        return res.status(500).send({message: error.message});
+    }
+}
+
+export const getUserByEmail = async (req: express.Request, res: express.Response) => {
+    try {
+        const email = req.body.email;
+        if (!email) {
+            return res.status(400).send({message: "Missing user email"});
+        }
+        const user = await prisma.user.findUnique({
+            where: {
+                email: email,
+            },
+        });
+        if (!user) {
+            return res.status(404).send({message: "User not found"});
+        }
+        const userDto: userDto = {
+            name: user.firstname + " " + user.lastname,
+            email: user.email,
+        }
+        return res.status(200).send(userDto);
+    } catch (error) {
+        return res.status(500).send({message: error.message});
+    }
+}
