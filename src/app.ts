@@ -28,7 +28,6 @@ app.use(helmet({
 // serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-
 app.use(express.urlencoded({extended: true}));
 app.get('/', (req, res) => {
     res.send({title: 'API is running'});
