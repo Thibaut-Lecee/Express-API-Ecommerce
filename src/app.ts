@@ -4,8 +4,6 @@ import {configRateLimit} from "./Middlewares/rateLimiter";
 import './Middlewares/passport';
 import configDotenv from 'dotenv';
 import passport from "passport";
-import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "../swagger.json";
 import morgan from "morgan";
 import path from "path";
 import {createAdminAccount, initializeRole} from "./Utils/initializeData";
@@ -39,7 +37,6 @@ app.get('/uploadImage', (req, res) => {
     res.sendFile(path.join(__dirname + '/htmlTemplate/uploadImage.html'));
 })
 app.use('/images', express.static('src/public/images'));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/admin', passport.authenticate('jwt', {session: false}), checkRole(1), require('./router/Administrator/adminRouter'));
 app.use('/api/manager', passport.authenticate('jwt', {session: false}), checkRole(2), require('./router/Manager/managerRouter'));
 app.use('/api/user', passport.authenticate('jwt', {session: false}), checkRole(3), require('./router/Utilisateur/userRouter'));
