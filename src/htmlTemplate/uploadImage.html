@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload d'Article</title>
+</head>
+<body>
+<h1>Ajouter un Article</h1>
+
+<form action="/api/admin/createArticle" method="post" enctype="multipart/form-data">
+    <div>
+        <label for="title">Titre:</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+    <div>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+    </div>
+    <div>
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+    </div>
+    <div>
+        <label for="published">Date de Publication:</label>
+        <input type="date" id="published" name="published" required>
+    </div>
+    <div>
+        <label for="price">Prix:</label>
+        <input type="number" id="price" name="price" step="0.01" required>
+    </div>
+    <div>
+        <label for="quantity">Quantité:</label>
+        <input type="number" id="quantity" name="quantity" required>
+    </div>
+    <button type="submit">Ajouter l'Article</button>
+</form>
+</body>
+</html>

@@ -6,11 +6,10 @@ const prisma = new PrismaClient();
 interface userDto {
     name: string;
     email: string;
-
 }
 
 
-export const getAllUsers = async (res: express.Response) => {
+export const getAllUsers = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
 
         const allUsers = await prisma.user.findMany();
@@ -18,32 +17,32 @@ export const getAllUsers = async (res: express.Response) => {
         for (const user of allUsers) {
             const userDto: userDto = {
                 email: user.email,
-                name: user.firstname + " " + user.lastname,
+                name: user.firstName + " " + user.lastName,
             }
             users.push(userDto);
         }
         res.status(200).send(users);
     } catch (error) {
-        res.status(500).send({message: error.message});
+        next(error)
     }
 };
 
 export const getUserById = async (req: express.Request, res: express.Response) => {
     try {
-        const id = req.body.id;
+        const id = req.params.id
         if (!id) {
             return res.status(400).send({message: "Missing user ID"});
         }
         const user = await prisma.user.findUnique({
             where: {
-                id: id,
+                id: parseInt(id.toString(), 10),
             },
         });
         if (!user) {
             return res.status(404).send({message: "User not found"});
         }
         const userDto: userDto = {
-            name: user.firstname + " " + user.lastname,
+            name: user.firstName + " " + user.lastName,
             email: user.email,
 
         }
@@ -68,7 +67,7 @@ export const getUserByEmail = async (req: express.Request, res: express.Response
             return res.status(404).send({message: "User not found"});
         }
         const userDto: userDto = {
-            name: user.firstname + " " + user.lastname,
+            name: user.firstName + " " + user.lastName,
             email: user.email,
         }
         return res.status(200).send(userDto);

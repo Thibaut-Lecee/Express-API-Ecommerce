@@ -11,31 +11,40 @@ datasource db {
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  firstname    String?
-  lastname String?
-  password String?
+  id        Int         @id @default(autoincrement())
+  email     String      @unique
+  firstName String?
+  lastName  String?
+  password  String
   purchases Purchases[]
+  roleId    Int?
+  role      Role?       @relation(fields: [roleId], references: [id])
 }
 
 model Articles {
-  id        Int      @id @default(autoincrement())
-  title     String
+  id            Int         @id @default(autoincrement())
+  title         String      @unique
   description   String?
-  image     String?
-  published DateTime  @default(now())
-  isPurchasable Boolean @default(false)
-  quantity  Int?
-  price     Float?
-  purchases Purchases[]
+  image         String?
+  published     DateTime    @default(now())
+  isPurchasable Boolean     @default(false)
+  quantity      Int?
+  price         Float?
+  purchases     Purchases[]
 }
 
 model Purchases {
   id        Int      @id @default(autoincrement())
   articleId Int
   userId    Int
-  boughtAt DateTime @default(now())
+  boughtAt  DateTime @default(now())
+  quantity  Int
   article   Articles @relation(fields: [articleId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique // client, admin or manager
+  user User[]
 }
