@@ -4,6 +4,7 @@ import express from "express";
 const prisma = new PrismaClient();
 
 interface userDto {
+    id: number;
     name: string;
     email: string;
 }
@@ -16,6 +17,7 @@ export const getAllUsers = async (req: express.Request, res: express.Response, n
         const users: userDto[] = [];
         for (const user of allUsers) {
             const userDto: userDto = {
+                id: user.id,
                 email: user.email,
                 name: user.firstName + " " + user.lastName,
             }
@@ -42,6 +44,7 @@ export const getUserById = async (req: express.Request, res: express.Response) =
             return res.status(404).send({message: "User not found"});
         }
         const userDto: userDto = {
+            id: user.id,
             name: user.firstName + " " + user.lastName,
             email: user.email,
 
@@ -67,6 +70,7 @@ export const getUserByEmail = async (req: express.Request, res: express.Response
             return res.status(404).send({message: "User not found"});
         }
         const userDto: userDto = {
+            id: user.id,
             name: user.firstName + " " + user.lastName,
             email: user.email,
         }

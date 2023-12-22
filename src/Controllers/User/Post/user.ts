@@ -123,6 +123,7 @@ export const modifyUser = async (req: express.Request, res: express.Response) =>
             },
         });
         const userDto: userDto = {
+            id: user.id,
             name: updatedUser.firstName + " " + updatedUser.lastName,
             email: updatedUser.email,
         };
