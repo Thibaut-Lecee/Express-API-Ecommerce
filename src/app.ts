@@ -22,9 +22,7 @@ const corsOptions = {
     origin: ['http://localhost:3000', 'https://localhost:3000', 'https://express-api-ecommerce.onrender.com', "https://localhost:3000"],
 }
 app.use(cors(corsOptions));
-app.use(helmet({
-    contentSecurityPolicy: false,
-}));
+app.use(helmet());
 // serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());

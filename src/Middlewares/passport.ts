@@ -19,7 +19,6 @@ passport.use(new JwtStrategy(params, (payload, done) => {
 export const checkRole = (requiredRole) => {
     return (req, res, next) => {
         const user = req.user;
-
         if (user.role === requiredRole) {
             next();
         } else {

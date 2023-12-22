@@ -49,10 +49,10 @@ export const deleteArticle = async (req: express.Request, res: express.Response)
             quantity: deleteImage.quantity,
         }
         if (!deleteImage.image) {
-            return res.status(204)
+            return res.status(204).send();
         }
         deleteImageFromRepository('./src/public/images', findArticle.image);
-        return res.status(204)
+        return res.status(204).send();
 
     } catch (error) {
         console.error(error);

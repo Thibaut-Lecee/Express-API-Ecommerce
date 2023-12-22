@@ -22,7 +22,7 @@ export const getPurchases = async (req: express.Request, res: express.Response) 
 
 export const getPurchasesByClient = async (req: express.Request, res: express.Response) => {
     try {
-        const userId = req.params.id;
+        const {userId} = req.params;
         if (!userId) {
             return res.status(400).send({message: "Missing user ID"});
         }
@@ -31,8 +31,8 @@ export const getPurchasesByClient = async (req: express.Request, res: express.Re
                 userId: parseInt(userId.toString(), 10),
             },
         });
-        if (purchases.length === 0 || !purchases) {
-            return res.status(204)
+        if (purchases.length === 0) {
+            return res.status(204).send()
         }
         res.status(200).send(purchases);
     } catch (e) {
@@ -44,7 +44,7 @@ export const getPurchasesByClient = async (req: express.Request, res: express.Re
 
 export const getPurchasesByArticle = async (req: express.Request, res: express.Response) => {
     try {
-        const articleId = req.params.articleId;
+        const {articleId} = req.params;
         if (!articleId) {
             return res.status(400).send({message: "Missing article ID"});
         }

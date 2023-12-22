@@ -8,7 +8,6 @@ export const validatePurchase = (req: express.Request, res: express.Response, ne
         articleId: Joi.number().required(),
         quantity: Joi.number().min(1).required(),
     });
-
     const {error} = schema.validate(req.body);
     if (error) {
         return res.status(400).send({message: error.details[0].message});
@@ -23,10 +22,23 @@ export const validateCreateUser = (req: express.Request, res: express.Response, 
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
     });
-
     const {error} = schema.validate(req.body);
     if (error) {
         return res.status(400).send({message: error.details[0].message});
+    }
+    next();
+}
+
+export const validateCreateArticle = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const schema = Joi.object({
+        title: Joi.string().min(5).required(),
+        description: Joi.string(),
+        price: Joi.number(),
+        quantity: Joi.number()
+    })
+    const {error} = schema.validate(req.body);
+    if (error) {
+        return res.status(400).send({message: error.details[0].message})
     }
     next();
 }
